@@ -7,6 +7,7 @@ import 'package:ajstyle/util/customStepper.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:badges/badges.dart';
 import 'package:card_loading/card_loading.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -35,7 +36,8 @@ class ProductView extends StatefulWidget {
 }
 
 class _ProductViewState extends State<ProductView> {
-  int indexColor = -1, indexSize = -1, qty = 1, selectQty = 1, numCart = 0;
+  CarouselController carouselController = CarouselController();
+  int qty = 1, selectQty = 1, numCart = 0;
   String color, image, size;
   double salePrice, price;
   List<String> images;
@@ -78,18 +80,39 @@ class _ProductViewState extends State<ProductView> {
       child: Stack(
         children: [
           GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ImageView(image: images),
-              ),
-            ),
-            child: Container(
-              width: double.maxFinite,
-              child: Image.network(
-                image,
-                fit: BoxFit.cover,
-              ),
+            onTap: null,
+            child: CarouselSlider.builder(
+              itemCount: images.length,
+              carouselController: carouselController,
+              itemBuilder:
+                  (BuildContext context, int itemIndex, int pageViewIndex) {
+                return Container(
+                  child: Image.network(images[itemIndex]),
+                );
+              },
+              options: CarouselOptions(
+                  aspectRatio: 2.0,
+                  enlargeCenterPage: true,
+                  autoPlay: false,
+                  enableInfiniteScroll: false,
+                  onPageChanged: (index, reseon) {
+
+                    if (index != 0) {
+                      var parts = images[index].split("_");
+
+                      setState(() {
+                        color = parts[1];
+                        size = parts[2].substring(0, parts[2].length - 4);
+                        getVarientData();
+                      });
+                    } else {
+                      setState(() {
+                        qty = 1;
+                        color = null;
+                        size = null;
+                      });
+                    }
+                  }),
             ),
           ),
           Align(
@@ -309,7 +332,7 @@ class _ProductViewState extends State<ProductView> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       var data = snapshot.data[index];
-                      if (index == indexSize) {
+                      if (size == data['size']) {
                         return Container(
                             margin: const EdgeInsets.only(left: 10),
                             width: 32.0,
@@ -329,11 +352,14 @@ class _ProductViewState extends State<ProductView> {
                       } else {
                         return GestureDetector(
                           onTap: () {
-                            size = data['size'];
                             setState(() {
-                              indexSize = index;
+                              size = data['size'];
                             });
-                            if (size != null && color != null) getVarientData();
+                            if (size != null && color != null) {
+                              int index = images.indexOf("https://ajstyle.lk/uploads/${widget.productID}"+"_"+color+"_"+"$size.jpg");
+                              carouselController.jumpToPage(index);
+                              getVarientData();
+                            }
                           },
                           child: Container(
                             margin: const EdgeInsets.only(left: 10),
@@ -400,7 +426,8 @@ class _ProductViewState extends State<ProductView> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       var data = snapshot.data[index];
-                      if (index == indexColor) {
+
+                      if (color == data['color']) {
                         return Container(
                             margin: const EdgeInsets.only(left: 10),
                             width: 120,
@@ -416,11 +443,14 @@ class _ProductViewState extends State<ProductView> {
                       } else {
                         return GestureDetector(
                           onTap: () {
-                            color = data['color'];
                             setState(() {
-                              indexColor = index;
+                              color = data['color'];
                             });
-                            if (size != null && color != null) getVarientData();
+                            if (size != null && color != null) {
+                              int index = images.indexOf("https://ajstyle.lk/uploads/${widget.productID}"+"_"+color+"_"+"$size.jpg");
+                              carouselController.jumpToPage(index);
+                              getVarientData();
+                            }
                           },
                           child: Container(
                             margin: const EdgeInsets.only(left: 10),
@@ -494,14 +524,13 @@ class _ProductViewState extends State<ProductView> {
                         onPressed: () async {
                           String msg = "*${widget.name}*\n";
 
-
                           if (color != null) {
                             msg += "*Colour: $color*\n";
                           }
                           if (size != null) {
                             msg += "*Size: $size*\n";
                           }
- 
+
                           await launch(
                               'whatsapp://send?phone=+94${snapshot.data}&text=$msg',
                               forceSafariVC: false,
@@ -613,6 +642,7 @@ class _ProductViewState extends State<ProductView> {
       for (var iamge in data) {
         images.add(iamge['image']);
       }
+      setState(() {});
     } catch (e) {}
   }
 
@@ -678,8 +708,7 @@ class _ProductViewState extends State<ProductView> {
         setState(() {
           color = null;
           size = null;
-          indexColor = -1;
-          indexSize = -1;
+
           price = double.parse(widget.price);
           salePrice = double.parse(widget.salePrice);
           image = widget.image;

@@ -184,7 +184,7 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   void sendVerification() async {
     try {
-      String path = "$url/resetPass.php";
+      String path = "https://ajstyle.lk/php/resetPass.php";
 
       final response = await http.post(Uri.parse(path),
           body: {"key": "$accessKey", "email": "${textEmailController.text}"});
