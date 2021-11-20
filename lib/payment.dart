@@ -5,6 +5,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:payhere_mobilesdk_flutter/payhere_mobilesdk_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import 'order.dart';
@@ -125,18 +126,39 @@ class _PaymentState extends State<Payment> {
                     SizedBox(
                       height: 8,
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.black54),
-                      padding: EdgeInsets.all(8),
-                      height: 50,
-                      width: 150,
-                      child: Text(
-                        "Cash On Delivery",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                    Row(
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.black54),
+                          padding: EdgeInsets.all(8),
+                          height: 50,
+                          width: 150,
+                          child: Text(
+                            "Cash On Delivery",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        FlatButton(
+                          onPressed: () {  startOneTimePayment(context);},
+                          child: Container(
+                            margin: EdgeInsets.only(left: 8),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.black54),
+                            padding: EdgeInsets.all(8),
+                            height: 50,
+                            width: 150,
+                            child: Text(
+                              "Card",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 28,
@@ -333,6 +355,39 @@ class _PaymentState extends State<Payment> {
     );
   }
 
+  void startOneTimePayment(BuildContext context) async {
+    Map paymentObject = {
+      "sandbox": true, // true if using Sandbox Merchant ID
+      "merchant_id": "1219112", // Replace your Merchant ID
+      "merchant_secret": "8cPAXnBsbyc4OUfQoKYxEX8bLPrGbnccG4Tsac2FFi7T",
+      "notify_url": "https://ent13zfovoz7d.x.pipedream.net/",
+      "order_id": "ItemNo12345",
+      "items": "Hello from Flutter!",
+      "amount": "50.00",
+      "currency": "LKR",
+      "first_name": "Saman",
+      "last_name": "Perera",
+      "email": "samanp@gmail.com",
+      "phone": "0771234567",
+      "address": "No.1, Galle Road",
+      "city": "Colombo",
+      "country": "Sri Lanka",
+      "delivery_address": "No. 46, Galle road, Kalutara South",
+      "delivery_city": "Kalutara",
+      "delivery_country": "Sri Lanka",
+      "custom_1": "",
+      "custom_2": ""
+    };
+
+    PayHere.startPayment(paymentObject, (paymentId) {
+      print("One Time Payment Success. Payment Id: $paymentId");
+    }, (error) {
+      print("One Time Payment Failed. Error: $error");
+    }, () {
+      print("One Time Payment Dismissed");
+    });
+  }
+
   void getShippingData() async {
     final storage = new FlutterSecureStorage();
     textEditingControllerName.text = await storage.read(key: "name");
@@ -385,8 +440,13 @@ class _PaymentState extends State<Payment> {
         ).show(context);
       } else {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Order(customerID: widget.cusID, isBack: false,)));
-            Flushbar(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Order(
+                      customerID: widget.cusID,
+                      isBack: false,
+                    )));
+        Flushbar(
           message: 'Your order has been submitted',
           messageColor: Colors.green,
           backgroundColor: kPrimaryColor,
