@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-const baseUrl = "https://dailyoops.com/";
 const kPrimaryColor = Colors.black87;
 //const kTextColor = Color(0xFF3C4046);
 const kBackgroundColor = Colors.white;
