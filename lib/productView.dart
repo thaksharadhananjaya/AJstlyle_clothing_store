@@ -15,7 +15,6 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import 'config.dart';
-import 'util/imageViewer.dart';
 
 class ProductView extends StatefulWidget {
   String name, price, salePrice, discription, image, cusID;
@@ -96,7 +95,6 @@ class _ProductViewState extends State<ProductView> {
                   autoPlay: false,
                   enableInfiniteScroll: false,
                   onPageChanged: (index, reseon) {
-
                     if (index != 0) {
                       var parts = images[index].split("_");
 
@@ -110,6 +108,8 @@ class _ProductViewState extends State<ProductView> {
                         qty = 1;
                         color = null;
                         size = null;
+                        price = double.parse(widget.price);
+                        salePrice = double.parse(widget.salePrice);
                       });
                     }
                   }),
@@ -356,7 +356,12 @@ class _ProductViewState extends State<ProductView> {
                               size = data['size'];
                             });
                             if (size != null && color != null) {
-                              int index = images.indexOf("https://ajstyle.lk/uploads/${widget.productID}"+"_"+color+"_"+"$size.jpg");
+                              int index = images.indexOf(
+                                  "https://ajstyle.lk/uploads/${widget.productID}" +
+                                      "_" +
+                                      color +
+                                      "_" +
+                                      "$size.jpg");
                               carouselController.jumpToPage(index);
                               getVarientData();
                             }
@@ -447,7 +452,12 @@ class _ProductViewState extends State<ProductView> {
                               color = data['color'];
                             });
                             if (size != null && color != null) {
-                              int index = images.indexOf("https://ajstyle.lk/uploads/${widget.productID}"+"_"+color+"_"+"$size.jpg");
+                              int index = images.indexOf(
+                                  "https://ajstyle.lk/uploads/${widget.productID}" +
+                                      "_" +
+                                      color +
+                                      "_" +
+                                      "$size.jpg");
                               carouselController.jumpToPage(index);
                               getVarientData();
                             }

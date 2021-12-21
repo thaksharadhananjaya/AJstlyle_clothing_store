@@ -4,7 +4,6 @@ import 'package:ajstyle/config.dart';
 import 'package:ajstyle/main.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:card_loading/card_loading.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -52,6 +51,17 @@ class Order extends StatelessWidget {
           ),
         ),
       ),
+      /*
+      bottomNavigationBar: FlatButton(
+        color: Colors.red,
+        height: 50,
+        child: Text(
+          "Clear All",
+          style: TextStyle(
+              fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        onPressed: () {},
+      ),*/
     );
   }
 
@@ -136,19 +146,18 @@ class Order extends StatelessWidget {
     );
   }
 
-  Container builtCard(BuildContext context, int index, data) {
+  Widget builtCard(BuildContext context, int index, data) {
     return Container(
-      height: 80,
-      padding: EdgeInsets.symmetric(horizontal: 5),
-      margin: EdgeInsets.only(bottom: 8),
+      margin: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
-            BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 9)
+            BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 1)
           ],
-          color: index % 2 == 0 ? Colors.white : Colors.white54),
+          color: index % 2 == 0 ? Colors.white70 : Colors.white38),
       // ignore: deprecated_member_use
       child: FlatButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         onPressed: () {
           Navigator.push(
               context,
@@ -165,19 +174,16 @@ class Order extends StatelessWidget {
                         ),
                       )));
         },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: SizedBox(
+          width: double.maxFinite,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "#${data['orderID']}",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                      color: Colors.black54),
+                  style: TextStyle(fontSize: 16, color: Colors.black54),
                 ),
                 Text("${data['date']}",
                     style: TextStyle(
@@ -190,27 +196,38 @@ class Order extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
                         color: Colors.black54)),
+                Text(
+                    data['payMethod'] == "0"
+                        ? "Online Payment"
+                        : "Cash On Delivery",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                        color: Colors.black54)),
+                Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: data["status"] == "0"
+                          ? kPrimaryColor
+                          : (data["status"] == "1"
+                              ? Colors.green
+                              : Colors.red)),
+                  child: Text(
+                      data["status"] == "0"
+                          ? "Processing"
+                          : (data["status"] == "1"
+                              ? "Shipped"
+                              : "Contact Failed"),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: kBackgroundColor)),
+                )
               ],
             ),
-            
-            
-            Container(
-              margin: const EdgeInsets.only(top: 4),
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: data["status"] == "0"?  kPrimaryColor: (data["status"] == "1" ? Colors.green: Colors.red)
-              ),
-              child: Text(
-                  data["status"] == "0"
-                      ? "Processing"
-                      : (data["status"] == "1" ? "Shipped" : "Contact Failed"),
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: kBackgroundColor)),
-            )
-          ],
+          ),
         ),
       ),
     );

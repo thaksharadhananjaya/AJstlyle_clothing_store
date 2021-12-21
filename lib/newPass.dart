@@ -141,7 +141,7 @@ class _NewPasswordState extends State<NewPassword> {
               obscureText: passVisibility ? true : false,
               inputFormatters: [
                 // ignore: deprecated_member_use
-                new WhitelistingTextInputFormatter(
+                FilteringTextInputFormatter.allow(
                     RegExp("[a-zA-Z-0-9-.@_/\|#%^&(){}=+~]")),
               ],
               validator: (text) {

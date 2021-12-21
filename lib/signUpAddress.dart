@@ -266,7 +266,7 @@ class _SignUpAddressState extends State<SignUpAddress> {
               },
               inputFormatters: [
                 // ignore: deprecated_member_use
-                new WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
               ],
               keyboardType: TextInputType.name,
               maxLength: 150,
@@ -335,7 +335,7 @@ class _SignUpAddressState extends State<SignUpAddress> {
               },
               inputFormatters: [
                 // ignore: deprecated_member_use
-                new WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),
+                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
               ],
               keyboardType: TextInputType.name,
               maxLength: 100,
@@ -404,7 +404,7 @@ class _SignUpAddressState extends State<SignUpAddress> {
               },
               inputFormatters: [
                 // ignore: deprecated_member_use
-                new WhitelistingTextInputFormatter(RegExp("[a-zA-Z-0-9-,/ ]")),
+                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z-0-9-,/ ]")),
               ],
               maxLength: 200,
               decoration: InputDecoration(

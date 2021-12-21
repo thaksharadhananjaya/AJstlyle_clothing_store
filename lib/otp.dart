@@ -1,10 +1,9 @@
-import 'dart:convert';
 
 import 'package:ajstyle/newPass.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+
 
 import 'config.dart';
 
@@ -112,7 +111,7 @@ class _OTPState extends State<OTP> {
                 controller: textEditingControllerOTP,
                 inputFormatters: [
                   // ignore: deprecated_member_use
-                  new WhitelistingTextInputFormatter(RegExp("[0-9]")),
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                 ],
                 maxLength: 4,
                 validator: (text) {

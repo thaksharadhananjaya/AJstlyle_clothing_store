@@ -130,7 +130,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 controller: textEmailController,
                 inputFormatters: [
                   // ignore: deprecated_member_use
-                  new WhitelistingTextInputFormatter(
+                  FilteringTextInputFormatter.allow(
                       RegExp("[a-zA-Z-0-9-.@_]")),
                 ],
                 validator: (text) {
@@ -184,7 +184,7 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   void sendVerification() async {
     try {
-      String path = "https://ajstyle.lk/php/resetPass.php";
+      String path = "$url/resetPass.php";
 
       final response = await http.post(Uri.parse(path),
           body: {"key": "$accessKey", "email": "${textEmailController.text}"});

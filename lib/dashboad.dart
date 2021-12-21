@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:ajstyle/about.dart';
-import 'package:ajstyle/config.dart';
+
 import 'package:ajstyle/main.dart';
 import 'package:ajstyle/order.dart';
 import 'package:ajstyle/signUpAddress.dart';
@@ -11,6 +11,9 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:move_to_background/move_to_background.dart';
+
+import 'config.dart';
+import 'otherPayment.dart';
 
 // ignore: must_be_immutable
 class Dashboad extends StatelessWidget {
@@ -90,9 +93,24 @@ class Dashboad extends StatelessWidget {
                   }),
                   builButton(
                       context,
+                      'Payments',
+                      Icon(
+                        Icons.payment,
+                        color: kPrimaryColor,
+                      ), () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OtherPayment(
+                                  customerID: user,
+                 
+                                )));
+                  }),
+                  builButton(
+                      context,
                       'Change Address',
                       Icon(
-                        Icons.mail,
+                        Icons.home_filled,
                         color: kPrimaryColor,
                       ), () {
                     Navigator.push(
@@ -621,7 +639,7 @@ class Dashboad extends StatelessWidget {
                           child: TextFormField(
                             inputFormatters: [
                               // ignore: deprecated_member_use
-                              new WhitelistingTextInputFormatter(
+                              FilteringTextInputFormatter.allow(
                                   RegExp("[a-zA-Z-0-9-.@_]")),
                             ],
                             validator: (text) {
@@ -805,7 +823,7 @@ class Dashboad extends StatelessWidget {
                           child: TextFormField(
                             inputFormatters: [
                               // ignore: deprecated_member_use
-                              new WhitelistingTextInputFormatter(
+                              FilteringTextInputFormatter.allow(
                                   RegExp("[0-9]")),
                             ],
                             onFieldSubmitted: (text) {

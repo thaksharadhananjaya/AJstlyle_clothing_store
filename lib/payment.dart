@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:convert';
 
 import 'package:ajstyle/config.dart';
@@ -13,7 +15,8 @@ import 'order.dart';
 class Payment extends StatefulWidget {
   final int cusID;
   final double total;
-  Payment({Key key, this.total, this.cusID}) : super(key: key);
+  final products ;
+  Payment({Key key, this.total, this.cusID, this.products}) : super(key: key);
 
   @override
   _PaymentState createState() => _PaymentState();
@@ -28,7 +31,7 @@ class _PaymentState extends State<Payment> {
   TextEditingController textEditingControllerAddress =
       new TextEditingController();
   String dropdownDistrict;
-
+  int paymentType = 0;
   @override
   void initState() {
     super.initState();
@@ -47,11 +50,14 @@ class _PaymentState extends State<Payment> {
     return Container(
       color: kPrimaryColor,
       height: 55,
-      // ignore: deprecated_member_use
       child: FlatButton(
         onPressed: () {
           if (formKey.currentState.validate()) {
-            createOrder();
+            if (paymentType == 0) {
+              startOneTimePayment(context);
+            } else {
+              createOrder();
+            }
           }
           {
             return null;
@@ -128,34 +134,43 @@ class _PaymentState extends State<Payment> {
                     ),
                     Row(
                       children: [
-                        Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.black54),
-                          padding: EdgeInsets.all(8),
+                        FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
                           height: 50,
-                          width: 150,
+                          minWidth: 100,
+                          color: paymentType == 0
+                              ? Colors.black38
+                              : Colors.black54,
+                          onPressed: () {
+                            setState(() {
+                              paymentType = 0;
+                            });
+                          },
                           child: Text(
-                            "Cash On Delivery",
+                            "Online Payment",
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
+                        SizedBox(
+                          width: 20,
+                        ),
                         FlatButton(
-                          onPressed: () {  startOneTimePayment(context);},
-                          child: Container(
-                            margin: EdgeInsets.only(left: 8),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.black54),
-                            padding: EdgeInsets.all(8),
-                            height: 50,
-                            width: 150,
-                            child: Text(
-                              "Card",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          height: 50,
+                          minWidth: 100,
+                          color: paymentType == 1
+                              ? Colors.black38
+                              : Colors.black54,
+                          onPressed: () {
+                            setState(() {
+                              paymentType = 1;
+                            });
+                          },
+                          child: Text(
+                            "Cash On Delivery",
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ],
@@ -246,7 +261,7 @@ class _PaymentState extends State<Payment> {
             validator: validator,
             inputFormatters: [
               // ignore: deprecated_member_use
-              new WhitelistingTextInputFormatter(regExp),
+              FilteringTextInputFormatter.allow(regExp),
             ],
             decoration: InputDecoration(
                 counterText: '',
@@ -285,8 +300,7 @@ class _PaymentState extends State<Payment> {
             },
             maxLength: 10,
             inputFormatters: [
-              // ignore: deprecated_member_use
-              new WhitelistingTextInputFormatter(RegExp("[0-9]")),
+              FilteringTextInputFormatter.allow(RegExp("[0-9]")),
             ],
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
@@ -357,34 +371,44 @@ class _PaymentState extends State<Payment> {
 
   void startOneTimePayment(BuildContext context) async {
     Map paymentObject = {
-      "sandbox": true, // true if using Sandbox Merchant ID
-      "merchant_id": "1219112", // Replace your Merchant ID
-      "merchant_secret": "8cPAXnBsbyc4OUfQoKYxEX8bLPrGbnccG4Tsac2FFi7T",
+      "sandbox": false, // true if using Sandbox Merchant ID
+      "merchant_id": "219370", // Replace your Merchant ID
+      "merchant_secret": "4vTWsqjEgYW4UtyCIJI3Jl8m8Tlq3eE6A4vRzf2ARfta",
       "notify_url": "https://ent13zfovoz7d.x.pipedream.net/",
-      "order_id": "ItemNo12345",
-      "items": "Hello from Flutter!",
-      "amount": "50.00",
+      "order_id": "",
+      "items": "${widget.products.join(",")}",
+      "amount": "${widget.total+300}",
       "currency": "LKR",
-      "first_name": "Saman",
-      "last_name": "Perera",
-      "email": "samanp@gmail.com",
-      "phone": "0771234567",
-      "address": "No.1, Galle Road",
-      "city": "Colombo",
+      "first_name": "${textEditingControllerName.text}",
+      "last_name": "",
+      "email": "",
+      "phone": "${textEditingControllerMobile.text}",
+      "address": "${textEditingControllerAddress.text}",
+      "city": "${textEditingControllerCity.text}",
       "country": "Sri Lanka",
-      "delivery_address": "No. 46, Galle road, Kalutara South",
-      "delivery_city": "Kalutara",
+      "delivery_address": "${textEditingControllerAddress.text}",
+      "delivery_city": "${textEditingControllerCity.text}",
       "delivery_country": "Sri Lanka",
       "custom_1": "",
       "custom_2": ""
     };
 
     PayHere.startPayment(paymentObject, (paymentId) {
-      print("One Time Payment Success. Payment Id: $paymentId");
+      createOrder();
     }, (error) {
-      print("One Time Payment Failed. Error: $error");
+      print("error: $error");
+      Flushbar(
+        message: "Payment Failed !",
+        messageColor: Colors.red,
+        backgroundColor: kPrimaryColor,
+        duration: Duration(seconds: 3),
+        icon: Icon(
+          Icons.warning_rounded,
+          color: Colors.red,
+        ),
+      ).show(context);
     }, () {
-      print("One Time Payment Dismissed");
+     // print("One Time Payment Dismissed");
     });
   }
 
@@ -413,6 +437,7 @@ class _PaymentState extends State<Payment> {
         "address": "${textEditingControllerAddress.text}",
         "district": "$dropdownDistrict",
         "date": "$date",
+        "paymentType":"$paymentType"
       });
       var data = jsonDecode(response.body);
 

@@ -18,7 +18,7 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   int cusID;
-
+var products ;
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -166,6 +166,7 @@ class _CartState extends State<Cart> {
                 builder: (context) => Payment(
                   total: total,
                   cusID: cusID,
+                  products: products,
                 ),
               ));
         },
@@ -392,9 +393,8 @@ class _CartState extends State<Cart> {
         "key": accessKey,
         "customerID": "$cusID",
       });
-      var data = jsonDecode(response.body);
-      print("data: $data");
-      return data;
+      products = jsonDecode(response.body);
+      return products;
     } catch (e) {
       Flushbar(
         message: 'No internet connection !',

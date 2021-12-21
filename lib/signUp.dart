@@ -230,7 +230,7 @@ class _SignUPState extends State<SignUP> {
               controller: textEmailController,
               inputFormatters: [
                 // ignore: deprecated_member_use
-                new WhitelistingTextInputFormatter(RegExp("[a-zA-Z-0-9-.@_]")),
+                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z-0-9-.@_]")),
               ],
               validator: (text) {
                 RegExp regex = RegExp(
@@ -325,7 +325,7 @@ class _SignUPState extends State<SignUP> {
               maxLength: 10,
               inputFormatters: [
                 // ignore: deprecated_member_use
-                new WhitelistingTextInputFormatter(RegExp("[0-9]")),
+                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
               ],
               keyboardType: TextInputType.number,
               decoration: InputDecoration(

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:ajstyle/productView.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -474,8 +473,7 @@ class _HomeState extends State<Home> {
           child: TextField(
             controller: textEditingControllerSearch,
             inputFormatters: [
-              // ignore: deprecated_member_use
-              new WhitelistingTextInputFormatter(RegExp("[a-zA-Z-0-9-+_)( ]")),
+              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z-0-9-+_)( ]")),
             ],
             onChanged: (text) {
               if (text.isEmpty) {

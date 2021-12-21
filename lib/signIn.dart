@@ -236,7 +236,7 @@ class _SignInState extends State<SignIn> {
               maxLength: 150,
               inputFormatters: [
                 // ignore: deprecated_member_use
-                new WhitelistingTextInputFormatter(RegExp("[a-zA-Z-0-9-.@_]")),
+                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z-0-9-.@_]")),
               ],
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(

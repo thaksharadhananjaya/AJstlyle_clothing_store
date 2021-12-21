@@ -54,7 +54,10 @@ class About extends StatelessWidget {
                   height: 180,
                   width: 190,
                 ),
-                Text('V 1.0.1', style: TextStyle(fontWeight: FontWeight.bold),)
+                Text(
+                  'V 1.0.2',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )
               ],
             ),
             SizedBox(
@@ -82,38 +85,34 @@ Install and start shopping!
 We love to hear your feedback about Marketplace. Make sure to give us a rating.''',
               style: TextStyle(fontSize: 14),
             ),
-            SizedBox(height: 12,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                
-                GestureDetector(
-                  onTap: () async {
-                    await launch('https://www.facebook.com/ajstyle.galle',
-                        forceSafariVC: false, forceWebView: false);
-                  },
-                  child: FaIcon(
-                    FontAwesomeIcons.facebookSquare,
-                    color: Colors.lightBlue,
-                  ),
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                
-                GestureDetector(
-                  onTap: () async {
-                    await launch('whatsapp://send?phone=+94771304324',
-                        forceSafariVC: false, forceWebView: false);
-                  },
-                  child: FaIcon(
-                    FontAwesomeIcons.whatsappSquare,
-                    color: Colors.green,
-                  ),
-                ),
-              ]
-              
+            SizedBox(
+              height: 12,
             ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              GestureDetector(
+                onTap: () async {
+                  await launch('https://www.facebook.com/ajstyle.galle',
+                      forceSafariVC: false, forceWebView: false);
+                },
+                child: FaIcon(
+                  FontAwesomeIcons.facebookSquare,
+                  color: Colors.lightBlue,
+                ),
+              ),
+              SizedBox(
+                width: 16,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  await launch('whatsapp://send?phone=+94771304324',
+                      forceSafariVC: false, forceWebView: false);
+                },
+                child: FaIcon(
+                  FontAwesomeIcons.whatsappSquare,
+                  color: Colors.green,
+                ),
+              ),
+            ]),
             SizedBox(
               height: 30,
             ),
@@ -205,9 +204,10 @@ We love to hear your feedback about Marketplace. Make sure to give us a rating.'
                     color: Colors.orange,
                   ),
                 ),
-                SizedBox(height: 10,)
+                SizedBox(
+                  height: 10,
+                )
               ],
-              
             )
           ],
         ),
