@@ -55,7 +55,7 @@ class About extends StatelessWidget {
                   width: 190,
                 ),
                 Text(
-                  'V 1.0.2',
+                  'V 1.1.0',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 )
               ],
