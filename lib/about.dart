@@ -183,7 +183,7 @@ We love to hear your feedback about Marketplace. Make sure to give us a rating.'
                 ),
                 GestureDetector(
                   onTap: () async {
-                    await launch('whatsapp://send?phone=+94702308903',
+                    await launch('whatsapp://send?phone=+94715316516',
                         forceSafariVC: false, forceWebView: false);
                   },
                   child: FaIcon(

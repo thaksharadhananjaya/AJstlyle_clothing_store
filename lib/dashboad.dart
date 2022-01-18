@@ -269,27 +269,10 @@ class Dashboad extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Change Password",
-                    ),
-                    Container(
-                      width: 40,
-                      height: 40,
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.close,
-                            color: Colors.red,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          }),
-                    )
-                  ],
+                title: Text(
+                  "Change Password",
                 ),
-                titlePadding: EdgeInsets.only(left: 16, top: 0, bottom: 6),
+                titlePadding: EdgeInsets.only(left: 16, top: 4),
                 content: Form(
                   key: formKey,
                   child: SizedBox(
@@ -508,61 +491,69 @@ class Dashboad extends StatelessWidget {
                     ),
                   ),
                 ),
-                actionsPadding: EdgeInsets.only(bottom: 4),
                 actions: [
-                  SizedBox(
+                  FlatButton(
                     height: 40,
-                    width: 120,
-
-                    // ignore: deprecated_member_use
-                    child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        color: kPrimaryColor,
-                        onPressed: () {
-                          formKey.currentState.validate();
-                          print(pass);
-                          if (errorCPass == '' &&
-                              errorNewPass == '' &&
-                              errorOldPass == '') {
-                            setState(() {
-                              isProgress = true;
-                            });
-                            changePassword(
-                                textEditingControllerNewPass.text, context);
-                          } else {
-                            return;
-                          }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 22,
-                            ),
-                            Text(
-                              "Change",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            SizedBox(
-                                width: 18,
-                                height: 18,
-                                child: isProgress
-                                    ? CircularProgressIndicator(
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                Colors.white))
-                                    : SizedBox(
-                                        width: 22,
-                                      ))
-                          ],
-                        )),
-                  )
+                    color: kPrimaryColor.withOpacity(0.6),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )),
+                  FlatButton(
+                    height: 40,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0)),
+                      color: kPrimaryColor,
+                      onPressed: () {
+                        formKey.currentState.validate();
+ 
+                        if (errorCPass == '' &&
+                            errorNewPass == '' &&
+                            errorOldPass == '') {
+                          setState(() {
+                            isProgress = true;
+                          });
+                          changePassword(
+                              textEditingControllerNewPass.text, context);
+                        } else {
+                          return;
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                         mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 22,
+                          ),
+                          Text(
+                            "Change",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: isProgress
+                                  ? CircularProgressIndicator(
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              Colors.white))
+                                  : SizedBox(
+                                      width: 22,
+                                    ))
+                        ],
+                      ))
                 ],
               ),
             ),
@@ -590,27 +581,10 @@ class Dashboad extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Change Email",
-                    ),
-                    Container(
-                      width: 40,
-                      height: 40,
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.close,
-                            color: Colors.red,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          }),
-                    )
-                  ],
+                title: Text(
+                  "Change Email",
                 ),
-                titlePadding: EdgeInsets.only(left: 16, top: 0, bottom: 6),
+                titlePadding: EdgeInsets.only(left: 16, top: 4),
                 content: Form(
                   key: formKey,
                   child: SizedBox(
@@ -695,58 +669,67 @@ class Dashboad extends StatelessWidget {
                     ),
                   ),
                 ),
-                actionsPadding: EdgeInsets.only(bottom: 4),
+ 
                 actions: [
-                  SizedBox(
+                  FlatButton(
                     height: 40,
-                    width: 120,
-
-                    // ignore: deprecated_member_use
-                    child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        color: kPrimaryColor,
-                        onPressed: () {
-                          formKey.currentState.validate();
-                          if (errorEmail == '') {
-                            setState(() {
-                              isProgress = true;
-                            });
-                            changeEmail(
-                                textEditingControllerEmail.text, context);
-                          } else {
-                            return;
-                          }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 22,
-                            ),
-                            Text(
-                              "Change",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            SizedBox(
-                                width: 18,
-                                height: 18,
-                                child: isProgress
-                                    ? CircularProgressIndicator(
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                Colors.white))
-                                    : SizedBox(
-                                        width: 22,
-                                      ))
-                          ],
-                        )),
-                  )
+                    color: kPrimaryColor.withOpacity(0.6),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )),
+                  FlatButton(
+                    height: 40,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0)),
+                      color: kPrimaryColor,
+                      onPressed: () {
+                        formKey.currentState.validate();
+                        if (errorEmail == '') {
+                          setState(() {
+                            isProgress = true;
+                          });
+                          changeEmail(
+                              textEditingControllerEmail.text, context);
+                        } else {
+                          return;
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 22,
+                          ),
+                          Text(
+                            "Change",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: isProgress
+                                  ? CircularProgressIndicator(
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              Colors.white))
+                                  : SizedBox(
+                                      width: 22,
+                                    ))
+                        ],
+                      ))
                 ],
               ),
             ),
@@ -774,27 +757,10 @@ class Dashboad extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Change Mobile",
-                    ),
-                    Container(
-                      width: 40,
-                      height: 40,
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.close,
-                            color: Colors.red,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          }),
-                    )
-                  ],
+                title: Text(
+                  "Change Mobile",
                 ),
-                titlePadding: EdgeInsets.only(left: 16, top: 0, bottom: 6),
+                titlePadding: EdgeInsets.only(left: 16, top: 4),
                 content: Form(
                   key: formKey,
                   child: SizedBox(
@@ -891,56 +857,65 @@ class Dashboad extends StatelessWidget {
                 ),
                 actionsPadding: EdgeInsets.only(bottom: 4),
                 actions: [
-                  SizedBox(
+                  FlatButton(
                     height: 40,
-                    width: 120,
-
-                    // ignore: deprecated_member_use
-                    child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        color: kPrimaryColor,
-                        onPressed: () {
-                          formKey.currentState.validate();
-                          if (errorMobile == '') {
-                            setState(() {
-                              isProgress = true;
-                            });
-                            changeMobile(
-                                textEditingControllerMobile.text, context);
-                          } else {
-                            return;
-                          }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 22,
-                            ),
-                            Text(
-                              "Change",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            SizedBox(
-                                width: 18,
-                                height: 18,
-                                child: isProgress
-                                    ? CircularProgressIndicator(
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                Colors.white))
-                                    : SizedBox(
-                                        width: 22,
-                                      ))
-                          ],
-                        )),
-                  )
+                    color: kPrimaryColor.withOpacity(0.6),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )),
+                  FlatButton(
+                    height: 40,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0)),
+                      color: kPrimaryColor,
+                      onPressed: () {
+                        formKey.currentState.validate();
+                        if (errorMobile == '') {
+                          setState(() {
+                            isProgress = true;
+                          });
+                          changeMobile(
+                              textEditingControllerMobile.text, context);
+                        } else {
+                          return;
+                        }
+                      },
+                      child: Row(
+                         mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 22,
+                          ),
+                          Text(
+                            "Change",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: isProgress
+                                  ? CircularProgressIndicator(
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              Colors.white))
+                                  : SizedBox(
+                                      width: 22,
+                                    ))
+                        ],
+                      ))
                 ],
               ),
             ),
@@ -1058,7 +1033,7 @@ class Dashboad extends StatelessWidget {
           body: {"key": accessKey, "mobile": "$mobile", "user": "$user"});
 
       String data = jsonDecode(response.body).toString();
-      print(data);
+
       if (data == '0') {
         Flushbar(
           message: 'Something went to wrong ! Try again later',

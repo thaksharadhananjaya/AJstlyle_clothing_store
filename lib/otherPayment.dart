@@ -31,23 +31,12 @@ class OtherPayment extends StatelessWidget {
   Scaffold buildScaffold(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: KPaddingHorizontal, vertical: KPaddingVertical),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Other Payments",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
-              SizedBox(
-                height: 30,
-              ),
-              buildPayments(context),
-            ],
-          ),
-        ),
+      appBar: AppBar(
+        backgroundColor: kPrimaryColor,
+        foregroundColor: kBackgroundColor,
+        title: Text("Other Payments",),
       ),
+      body: buildPayments(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () => buildPaymentDialog(context),
         backgroundColor: kPrimaryColor,
@@ -70,8 +59,10 @@ class OtherPayment extends StatelessWidget {
     );
   }
 
-  Expanded buildPayments(BuildContext context) {
-    return Expanded(
+  Widget buildPayments(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+            horizontal: KPaddingHorizontal, vertical: KPaddingVertical),
       child: FutureBuilder(
           future: getPayment(context),
           builder: (context, snapshot) {
@@ -201,22 +192,25 @@ class OtherPayment extends StatelessWidget {
               ),
               titlePadding: EdgeInsets.only(left: 16, top: 4),
               content: SingleChildScrollView(
-                child: TextFormField(
-                  maxLength: 6,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
-                  ],
-                  controller: textEditingControllerAmount,
-                  decoration: InputDecoration(
-                      labelText: "Amount (LKR)",
-                      hintText: "0.00",
-                      counterText: "",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.black87)),
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 8)),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width - 10,
+                  child: TextFormField(
+                    maxLength: 6,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
+                    ],
+                    controller: textEditingControllerAmount,
+                    decoration: InputDecoration(
+                        labelText: "Amount (LKR)",
+                        hintText: "0.00",
+                        counterText: "",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.black87)),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 8)),
+                  ),
                 ),
               ),
               actions: [

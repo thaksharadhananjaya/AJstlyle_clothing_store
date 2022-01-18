@@ -71,20 +71,16 @@ class _HomeState extends State<Home> {
           textEditingControllerSearch.text.isEmpty
               ? (indexCategory == 0 ? buidSaleProductList() : SizedBox())
               : SizedBox(),
-          Padding(
-            padding: const EdgeInsets.only(
-                left: KPaddingHorizontal, right: KPaddingVertical, top: 20),
-            child: textEditingControllerSearch.text.isEmpty
-                ? (indexCategory == 0
-                    ? Text(
-                        "For you",
-                        style: TextStyle(fontSize: 20.0),
-                      )
-                    : Text(''))
-                : Text(
-                    "Result",
-                    style: TextStyle(fontSize: 17.0),
-                  ),
+          Visibility(
+            visible: textEditingControllerSearch.text.isNotEmpty,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: KPaddingHorizontal, right: KPaddingVertical, top: 20),
+              child: Text(
+                      "Result",
+                      style: TextStyle(fontSize: 17.0),
+                    ),
+            ),
           ),
           buidProductList(),
         ],
@@ -270,85 +266,98 @@ class _HomeState extends State<Home> {
           bloc: productBloc,
           builder: (context, state) {
             if (state is LoadedProduct) {
-              return LazyLoadScrollView(
-                onEndOfPage: () => productBloc.add(FetchProduct()),
-                child: GridView.builder(
-                  padding: EdgeInsets.only(top: 15.0),
-                  shrinkWrap: true,
-                  itemCount: state.productList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 0.75,
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 24,
-                      crossAxisSpacing: 12),
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ProductView(
-                                      cusID: cusID,
-                                      productID:
-                                          state.productList[index].productID,
-                                      name: state.productList[index].name,
-                                      price: state.productList[index].price,
-                                      salePrice:
-                                          state.productList[index].salePrice,
-                                      discription:
-                                          state.productList[index].discription,
-                                      image: state.productList[index].image,
-                                    )));
-                      },
-                      child: Container(
-                        width: 150,
-                        height: 250,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              state.productList[index].image,
-                            ),
-                          ),
-                        ),
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          padding: EdgeInsets.all(KPaddingHorizontal / 2),
-                          height: 50,
-                          width: double.maxFinite,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.75),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                            ),
-                          ),
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    text: "${state.productList[index].name}\n"
-                                        .toUpperCase(),
-                                    style: Theme.of(context).textTheme.button),
-                                TextSpan(
-                                  text:
-                                      "LKR ${double.parse(state.productList[index].price).toStringAsFixed(2)}",
-                                  style: TextStyle(
-                                    color: kPrimaryColor.withOpacity(0.5),
-                                  ),
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "For You",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  LazyLoadScrollView(
+                    onEndOfPage: () => productBloc.add(FetchProduct()),
+                    child: GridView.builder(
+                      padding: EdgeInsets.only(top: 15.0),
+                      shrinkWrap: true,
+                      itemCount: state.productList.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 0.75,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 24,
+                          crossAxisSpacing: 12),
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductView(
+                                          cusID: cusID,
+                                          productID:
+                                              state.productList[index].productID,
+                                          name: state.productList[index].name,
+                                          price: state.productList[index].price,
+                                          salePrice:
+                                              state.productList[index].salePrice,
+                                          discription:
+                                              state.productList[index].discription,
+                                          image: state.productList[index].image,
+                                        )));
+                          },
+                          child: Container(
+                            width: 150,
+                            height: 250,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  state.productList[index].image,
                                 ),
-                              ],
+                              ),
+                            ),
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              padding: EdgeInsets.all(KPaddingHorizontal / 2),
+                              height: 50,
+                              width: double.maxFinite,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.75),
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10),
+                                ),
+                              ),
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                        text: "${state.productList[index].name}\n"
+                                            .toUpperCase(),
+                                        style: Theme.of(context).textTheme.button),
+                                    TextSpan(
+                                      text:
+                                          "LKR ${double.parse(state.productList[index].price).toStringAsFixed(2)}",
+                                      style: TextStyle(
+                                        color: kPrimaryColor.withOpacity(0.5),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               );
             }
+            if (!(state is ProductErrorState)) {
             return Row(
               children: [
                 CardLoading(
@@ -367,7 +376,9 @@ class _HomeState extends State<Home> {
                   borderRadius: 15,
                 ),
               ],
-            );
+            );}else{
+              return SizedBox();
+            }
           }),
     );
   }
@@ -385,7 +396,7 @@ class _HomeState extends State<Home> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   var data = snapshot.data[index];
-
+                  String category = data['category'];
                   if (index == indexCategory) {
                     return Container(
                         margin: EdgeInsets.symmetric(horizontal: 15.0),
@@ -396,14 +407,14 @@ class _HomeState extends State<Home> {
                             borderRadius: BorderRadius.circular(18.0)),
                         child: Center(
                             child: Text(
-                          data['category'],
+                          category,
                           style: TextStyle(color: Colors.white),
                         )));
                   } else {
                     return GestureDetector(
                       onTap: () {
                         textEditingControllerSearch.clear();
-                        productBloc = ProductBloc(false, null, index);
+                        productBloc = ProductBloc(false, null, int.parse(data['categoryID']));
                         productBloc.add(FetchProduct());
                         setState(() {
                           indexCategory = index;
@@ -419,7 +430,7 @@ class _HomeState extends State<Home> {
                             borderRadius: BorderRadius.circular(18.0)),
                         child: Center(
                             child: Text(
-                          data['category'],
+                         category,
                           style: TextStyle(color: Colors.black),
                         )),
                       ),

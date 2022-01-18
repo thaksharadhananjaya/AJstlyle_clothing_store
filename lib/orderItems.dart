@@ -27,9 +27,8 @@ class OrderItems extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        toolbarHeight: 40,
-        elevation: 0,
-        backgroundColor: kBackgroundColor,
+        backgroundColor: kPrimaryColor,
+        foregroundColor: kBackgroundColor,
         title: Text("#${orderID.toString()}"),
       ),
       body: Padding(

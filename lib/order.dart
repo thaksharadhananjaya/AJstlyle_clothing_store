@@ -34,23 +34,12 @@ class Order extends StatelessWidget {
   Scaffold buildScaffold(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: KPaddingHorizontal, vertical: KPaddingVertical),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("My Orders",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
-              SizedBox(
-                height: 30,
-              ),
-              buildOrders(context),
-            ],
-          ),
-        ),
+      appBar: AppBar(
+        backgroundColor: kPrimaryColor,
+        foregroundColor: kBackgroundColor,
+        title: Text("My Orders",),
       ),
+      body: buildOrders(context),
       /*
       bottomNavigationBar: FlatButton(
         color: Colors.red,
@@ -65,8 +54,10 @@ class Order extends StatelessWidget {
     );
   }
 
-  Expanded buildOrders(BuildContext context) {
-    return Expanded(
+  Container buildOrders(BuildContext context) {
+    return Container(
+    padding:  const EdgeInsets.symmetric(
+            horizontal: KPaddingHorizontal, vertical: KPaddingVertical),
       child: FutureBuilder(
           future: getOrders(context),
           builder: (context, snapshot) {
